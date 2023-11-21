@@ -1,73 +1,76 @@
 package com.qa;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
-import java.util.List;
+import static java.lang.Thread.sleep;
 
-public class SelectMobileTest extends MainTest{
+public class SelectMobileTest extends Main {
 
-    //navigate to URL
     @Test(priority = 1)
-    @Parameters({"url"})
-    public void getURL(String url){
-        driver.get(url);
+    @Parameters({ "url" })
+    // navigate to URL
+    public void getURL(String url) {
+        webdriver.get(url);
     }
 
-    //verify URL
     @Test(priority = 2)
-    @Parameters({"url"})
-    public void verifyURL(String url){
-        Assert.assertEquals(driver.getCurrentUrl(), url);
+    @Parameters({ "url" })
+    // verify URL
+    public void verifyURL(String url) {
+        Assert.assertEquals(webdriver.getCurrentUrl(), url);
+        System.out.println("URL is Verified Successfully.");
     }
 
-    //select “Cell Phones & Accessories” from All categories drop down
+    // select “Cell Phones & Accessories” from All categories dropdown menu
     @Test(priority = 3)
-    public void selectCategory(){
-        WebElement categoryDropDown = driver.findElement(By.id("gh-cat"));
+    public void selectCategory() {
+        WebElement categoryDropDown = webdriver.findElement(By.id("gh-cat"));
         Select select = new Select(categoryDropDown);
         select.selectByVisibleText("Cell Phones & Accessories");
     }
 
-    //type “Mobile phone” on search bar
+    // type “Mobile phone” on search bar
     @Test(priority = 4)
-    public void typeMobile(){
-        Assert.assertEquals( driver.findElement(By.id("gh-ac")).isDisplayed());
-        WebElement searchBar = driver.findElement(By.id("gh-ac"));
+    public void typeMobile() {
+        WebElement searchBar = webdriver.findElement(By.id("gh-ac"));
         searchBar.sendKeys("Mobile phone");
     }
 
-    //click on Search button icon [ Left hand side]
+    // click on Search button icon [ Left hand side]
     @Test(priority = 5)
-    public void serchMobile(){
-        Assert.assertEquals( driver.findElement(By.id("gh-btn")).isDisplayed());
-        WebElement searchButton = driver.findElement(By.id("gh-btn"));
+    public void serchMobile() {
+        WebElement searchButton = webdriver.findElement(By.id("gh-btn"));
         searchButton.click();
     }
 
-    //select brand as “Apple” from side panel[checkbox]
+    // select brand as “Apple” from side panel[checkbox]
     @Test(priority = 6)
-    public void selectBrand(){
-        WebElement appleCheckBox = driver.findElement(By.xpath("//*[@id=\"x-refine__group_1__0\"]/ul/li[1]/div/a/div/div/div/span[1]"));
+    public void selectBrand() {
+        WebElement appleCheckBox = webdriver
+                .findElement(By.xpath("//*[@id=\"x-refine__group_1__0\"]/ul/li[1]/div/a/div/div/div/span[1]"));
         appleCheckBox.click();
     }
 
-    //select the first search item.
+    // select the first search item from the apple mobile phone list
     @Test(priority = 7)
-    public void selectFirstItem() throws InterruptedException {
-        WebElement firstItem = driver.findElement(By.xpath("//*[@id=\"srp-river-results\"]/ul/li[2]/div/div[2]/a/div/span"));
+    public void selectFirstItem() {
+        WebElement firstItem = webdriver
+                .findElement(By.xpath("//*[@id=\"srp-river-results\"]/ul/li[2]/div/div[2]/a/div/span"));
         firstItem.click();
-        Thread.sleep(5000);
+        try {
+            sleep(5000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
 
-        for (String winHandle : driver.getWindowHandles()){
-            driver.switchTo().window(winHandle);
+        for (String winHandle : webdriver.getWindowHandles()) {
+            webdriver.switchTo().window(winHandle);
         }
     }
-
 
 }
